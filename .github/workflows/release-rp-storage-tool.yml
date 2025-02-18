@@ -31,7 +31,7 @@ jobs:
             --build-arg BUILDKIT_INLINE_CACHE=1 \
             --cache-from redpandadata/redpanda-test-node:cache-amd64 \
             --cache-from redpandadata/redpanda-test-node:cache-arm64 \
-            --target rp-storage-tool . \
+            --target rp-storage-tool ./upstream \
             --load
 
   release-rp-storage-tool-depot:
@@ -47,5 +47,5 @@ jobs:
           depot build --project zp2mb0bchx \
             -f ./upstream/tests/docker/Dockerfile \
             -t rp-storage-tool \
-            --target rp-storage-tool . \
+            --target rp-storage-tool ./upstream \
             --load
