@@ -47,5 +47,6 @@ jobs:
           depot build --project zp2mb0bchx \
             -f ./upstream/tests/docker/Dockerfile \
             -t rp-storage-tool \
+            --platform linux/amd64,linux/arm64 \
             --target rp-storage-tool ./upstream \
             --load
