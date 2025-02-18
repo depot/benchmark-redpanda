@@ -44,7 +44,7 @@ jobs:
       - uses: depot/setup-action@v1
       - name: Build binary
         run: |
-          depot build --project zp2mb0bchx
+          depot build --project zp2mb0bchx \
             -f ./upstream/tests/docker/Dockerfile \
             -t rp-storage-tool \
             --target rp-storage-tool . \
