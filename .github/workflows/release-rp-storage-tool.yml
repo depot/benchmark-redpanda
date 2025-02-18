@@ -35,7 +35,7 @@ jobs:
             --load
 
   release-rp-storage-tool-depot:
-    name: (Depot) Release - ${{ matrix.platform.release_for }}
+    name: (Depot) Release
     runs-on: depot-ubuntu-latest
     steps:
       - uses: actions/checkout@v4
