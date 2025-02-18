@@ -1,0 +1,51 @@
+---
+name: Benchmark - Release rp-storage-tool
+on:
+  workflow_dispatch: {}
+  push: {}
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  release-rp-storage-tool-docker:
+    name: (Docker) Release - ${{ matrix.platform.release_for }}
+    strategy:
+      matrix:
+        platform:
+          - release_for: linux-amd64
+            os: ubuntu-latest
+          - release_for: linux-arm64
+            os: ubuntu-latest-2-arm64
+    runs-on: ${{ matrix.platform.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Build binary
+        run: |
+          export DOCKER_BUILDKIT=1
+          docker build -f ./upstream/tests/docker/Dockerfile \
+            -t rp-storage-tool \
+            --build-arg BUILDKIT_INLINE_CACHE=1 \
+            --cache-from redpandadata/redpanda-test-node:cache-amd64 \
+            --cache-from redpandadata/redpanda-test-node:cache-arm64 \
+            --target rp-storage-tool . \
+            --load
+
+  release-rp-storage-tool-depot:
+    name: (Depot) Release - ${{ matrix.platform.release_for }}
+    runs-on: depot-ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: depot/setup-action@v1
+      - name: Build binary
+        run: |
+          depot build --project zp2mb0bchx
+            -f ./upstream/tests/docker/Dockerfile \
+            -t rp-storage-tool \
+            --target rp-storage-tool . \
+            --load
