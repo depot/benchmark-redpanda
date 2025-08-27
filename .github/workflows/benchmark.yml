@@ -20,7 +20,8 @@ jobs:
       - uses: docker/setup-qemu-action@v2
       - uses: docker/build-push-action@v3
         with:
-          context: ./upstream/tests/docker/Dockerfile
+          context: ./upstream
+          file: ./upstream/tests/docker/Dockerfile
           target: rp-storage-tool
           build-args: |
             BUILDKIT_INLINE_CACHE=1
@@ -29,7 +30,7 @@ jobs:
           cache-to: type=gha,mode=max
 
   build-with-depot:
-    name: (Depot) Release
+    name: Build with Depot
     runs-on: depot-ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -38,6 +39,8 @@ jobs:
       - uses: depot/setup-action@v1
       - uses: depot/build-push-action@v1
         with:
-          context: ./upstream/tests/docker/Dockerfile
+          context: ./upstream
+          file: ./upstream/tests/docker/Dockerfile
           target: rp-storage-tool
           platforms: linux/amd64,linux/arm64
+          project: zp2mb0bchx
